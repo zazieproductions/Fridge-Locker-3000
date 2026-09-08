@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { chance, randomIndex } from '../lib/chaos';
+
+/** How many checkboxes "Select Everything" offers. Fifty. None of them matter. */
+const CHAOS_CHECKBOX_COUNT = 50;
+
+/** Probability that toggling one checkbox also toggles a random bystander. */
+const BYSTANDER_TOGGLE_PROBABILITY = 0.5;
+/** Probability that merely hovering an identity radio selects it. */
+const HOVER_SELECT_PROBABILITY = 0.3;
+
+/** A fresh random tilt for a checkbox, in degrees. */
+const rollRotation = () => Math.random() * 360;
 
 export function ChaoticOptions() {
-  const [checkboxes, setCheckboxes] = useState(Array(50).fill(false));
+  const [checkboxes, setCheckboxes] = useState<boolean[]>(() => Array(CHAOS_CHECKBOX_COUNT).fill(false));
+  // Each checkbox carries a random tilt, rolled once at mount and re-rolled
+  // inside the toggle handler — so the grid visibly re-scatters every time
+  // you touch it, without calling Math.random() during render.
+  const [rotations, setRotations] = useState<number[]>(() => Array(CHAOS_CHECKBOX_COUNT).fill(0).map(rollRotation));
   const [radio, setRadio] = useState(0);
-  
+
   const toggleCheckbox = (index: number) => {
     const newCb = [...checkboxes];
-    // Randomly toggle other checkboxes too for chaos
     newCb[index] = !newCb[index];
-    if (Math.random() > 0.5) {
-      const randIdx = Math.floor(Math.random() * 50);
+    // For chaos: toggling one checkbox may toggle a random bystander too.
+    if (chance(BYSTANDER_TOGGLE_PROBABILITY)) {
+      const randIdx = randomIndex(newCb.length);
       newCb[randIdx] = !newCb[randIdx];
     }
     setCheckboxes(newCb);
+    setRotations(Array.from({ length: CHAOS_CHECKBOX_COUNT }, rollRotation));
   };
 
   return (
@@ -26,13 +43,13 @@ export function ChaoticOptions() {
           <h3 className="text-3xl font-bold mb-4 text-yellow-300">Select Everything:</h3>
           <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
             {checkboxes.map((checked, i) => (
-              <input 
+              <input
                 key={i}
-                type="checkbox" 
+                type="checkbox"
                 checked={checked}
                 onChange={() => toggleCheckbox(i)}
                 className="w-6 h-6 accent-pink-500 cursor-help"
-                style={{ transform: `rotate(${Math.random() * 360}deg)` }}
+                style={{ transform: `rotate(${rotations[i]}deg)` }}
               />
             ))}
           </div>
@@ -46,7 +63,9 @@ export function ChaoticOptions() {
                 key={i} 
                 className={`flex items-center gap-4 p-4 text-xl font-black cursor-crosshair border-4 transition-all ${radio === i ? 'bg-red-600 border-white scale-110' : 'bg-black border-gray-600 hover:bg-gray-800'}`}
                 onMouseEnter={() => {
-                  if (Math.random() > 0.7) setRadio(i); // Randomly select on hover sometimes
+                  // Merely hovering an identity sometimes selects it. You are
+                  // what you nearly hover.
+                  if (chance(HOVER_SELECT_PROBABILITY)) setRadio(i);
                 }}
               >
                 <input 

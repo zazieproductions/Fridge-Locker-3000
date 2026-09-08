@@ -1,7 +1,14 @@
-import React from 'react';
 import { fridgePerson, cornFractal, bluesMetalGuitar } from '../assets/manifest';
 
-const products = [
+interface Product {
+  name: string;
+  /** Joke prices only — the Emporium does not actually transact. */
+  price: string;
+  desc: string;
+  image: string;
+}
+
+const products: Product[] = [
   { name: "Rust-Bucket Distortion Pedal", price: "$666.66", desc: "Adds 100% more rust to your tone.", image: bluesMetalGuitar },
   { name: "Plasma Slide", price: "$42.00", desc: "Burns your finger off, sounds great.", image: bluesMetalGuitar },
   { name: "Fridge-Cooled Amp", price: "$9,999", desc: "Keep your blues cold, your metal hot.", image: fridgePerson },
@@ -17,7 +24,7 @@ export function BluesMetalShop() {
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {products.map((p, i) => (
-          <div key={i} className="bg-black border-4 border-blue-500 p-4 transform hover:rotate-6 hover:scale-110 transition-all duration-300 group">
+          <div key={p.name} className="bg-black border-4 border-blue-500 p-4 transform hover:rotate-6 hover:scale-110 transition-all duration-300 group">
             <div className="h-48 overflow-hidden border-2 border-red-500 mb-4 relative">
               <img src={p.image} alt={p.name} className="w-full h-full object-cover animate-spin-reverse group-hover:animate-spin-fast" style={{ animationDuration: `${(i+1)*2}s` }} />
               <div className="absolute inset-0 bg-blue-500/30 mix-blend-color"></div>

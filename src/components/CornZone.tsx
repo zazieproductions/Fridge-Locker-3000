@@ -1,5 +1,7 @@
-import React from 'react';
 import { cornFractal } from '../assets/manifest';
+
+/** Number of individually-clickable corn cells in the grid. Nine. Obviously. */
+const CORN_CELL_COUNT = 9;
 
 export function CornZone() {
   return (
@@ -14,12 +16,15 @@ export function CornZone() {
         </h2>
         
         <div className="grid grid-cols-3 gap-4 w-full mb-8">
-          {[...Array(9)].map((_, i) => (
-            <div 
-              key={i} 
+          {[...Array(CORN_CELL_COUNT)].map((_, i) => (
+            <div
+              key={i}
               className="bg-orange-500 text-yellow-200 font-bold p-2 text-xl border-4 border-yellow-800 animate-wobble cursor-pointer hover:bg-red-500"
               style={{ animationDelay: `${i * 0.1}s` }}
               onClick={(e) => {
+                // Clicking a cob teleports it to a random scale and rotation.
+                // The mutation is deliberately uncontrolled — cobs never return
+                // to their original position. There is no reset button.
                 e.currentTarget.style.transform = `scale(${Math.random() * 3}) rotate(${Math.random() * 360}deg)`;
               }}
             >

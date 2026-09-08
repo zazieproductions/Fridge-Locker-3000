@@ -1,24 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FridgeSection } from './components/FridgeSection';
 import { CornZone } from './components/CornZone';
 import { BluesMetalShop } from './components/BluesMetalShop';
 import { ChaoticOptions } from './components/ChaoticOptions';
 import { fridgePerson } from './assets/manifest';
+import { pickRandom } from './lib/chaos';
+
+/** Palette for the mouse-following rave blob, re-rolled every RAVE_CYCLE_MS. */
+const RAVE_COLORS = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'] as const;
+const RAVE_CYCLE_MS = 100;
 
 function App() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [bgColor, setBgColor] = useState('#ff00ff');
+  const [bgColor, setBgColor] = useState<string>(RAVE_COLORS[0]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener('mousemove', handleMouseMove);
-    
+
+    // The blob strobes through the palette 10× per second. Yes, on purpose.
     const interval = setInterval(() => {
-      const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
-      setBgColor(colors[Math.floor(Math.random() * colors.length)]);
-    }, 100);
+      setBgColor(pickRandom(RAVE_COLORS));
+    }, RAVE_CYCLE_MS);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -27,12 +32,14 @@ function App() {
   }, []);
 
   return (
+    // mix-blend-difference inverts everything beneath the cursor blob — the
+    // whole page double-exposes itself as you move. Load-bearing weirdness.
     <div className="min-h-screen relative overflow-hidden" style={{ mixBlendMode: 'difference' }}>
       {/* Crazy Cursor Follower */}
-      <div 
+      <div
         className="fixed w-32 h-32 pointer-events-none z-[9999] animate-spin-fast mix-blend-exclusion"
-        style={{ 
-          left: mousePos.x - 64, 
+        style={{
+          left: mousePos.x - 64,
           top: mousePos.y - 64,
           background: `radial-gradient(circle, ${bgColor} 0%, transparent 70%)`
         }}

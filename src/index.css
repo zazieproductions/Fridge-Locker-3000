@@ -103,3 +103,20 @@ body {
   background: #00ff00;
   border: 3px solid #ffff00;
 }
+
+/*
+ * Accessibility valve. The piece is intentionally aggressive, but visitors
+ * with vestibular disorders should be able to opt out of the strobing,
+ * shaking and marqueeing. The default experience is unchanged; this only
+ * takes effect when the OS has requested reduced motion.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

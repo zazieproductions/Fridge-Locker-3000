@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { fridgePerson } from '../assets/manifest';
+
+/** The protocol buttons. None of the protocols have ever succeeded. */
+const PROTOCOL_ACTIONS = ['FREEZE', 'THAW', 'CRUSH', 'CRY'] as const;
 
 export function FridgeSection() {
   const [locked, setLocked] = useState(false);
   const [temp, setTemp] = useState(32);
+  // One random desync per button, rolled once at mount, so the four protocol
+  // buttons shake out of phase with each other.
+  const [actionDelays] = useState<readonly number[]>(() =>
+    PROTOCOL_ACTIONS.map(() => Math.random()),
+  );
 
   return (
     <div className="bg-cyan-300 border-[12px] border-pink-500 p-6 shadow-[20px_20px_0px_#000]">
@@ -48,11 +56,11 @@ export function FridgeSection() {
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            {['FREEZE', 'THAW', 'CRUSH', 'CRY'].map(action => (
-              <button 
+            {PROTOCOL_ACTIONS.map((action, i) => (
+              <button
                 key={action}
                 className="bg-purple-600 text-white font-bold py-4 border-b-4 border-purple-900 active:border-b-0 active:mt-4 hover:bg-purple-500 animate-shake"
-                style={{ animationDelay: `${Math.random()}s` }}
+                style={{ animationDelay: `${actionDelays[i]}s` }}
                 onClick={() => alert(`INITIATING ${action} PROTOCOL... ERROR: TOO MUCH CORN`)}
               >
                 {action}
