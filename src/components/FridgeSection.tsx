@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { fridgePerson } from '../assets/manifest';
 
 export function FridgeSection() {
   const [locked, setLocked] = useState(false);
@@ -13,7 +14,7 @@ export function FridgeSection() {
       <div className="flex flex-col md:flex-row gap-6">
         <div className="relative w-full md:w-1/2 border-8 border-black bg-gray-200 overflow-hidden group">
           <img 
-            src="/fridge-person.png" 
+            src={fridgePerson} 
             alt="Person in fridge" 
             className={`w-full h-full object-cover transition-all duration-1000 ${locked ? 'scale-150 blur-sm' : 'scale-100 group-hover:rotate-180'}`}
           />

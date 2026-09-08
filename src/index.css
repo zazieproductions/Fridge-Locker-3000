@@ -64,7 +64,7 @@
 }
 
 body {
-  background-image: url('/ugly-bg.png');
+  background-image: url('./assets/ugly-bg.svg');
   background-size: 200px;
   background-repeat: repeat;
   cursor: crosshair;

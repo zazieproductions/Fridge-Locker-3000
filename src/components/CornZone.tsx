@@ -1,10 +1,11 @@
 import React from 'react';
+import { cornFractal } from '../assets/manifest';
 
 export function CornZone() {
   return (
     <div className="bg-yellow-300 border-[16px] border-dotted border-green-600 p-4 relative overflow-hidden h-full">
       <div className="absolute inset-0 opacity-50">
-        <img src="/corn-fractal.png" alt="Corn Fractal" className="w-full h-full object-cover animate-spin-reverse" />
+        <img src={cornFractal} alt="Corn Fractal" className="w-full h-full object-cover animate-spin-reverse" />
       </div>
       
       <div className="relative z-10 flex flex-col items-center text-center">

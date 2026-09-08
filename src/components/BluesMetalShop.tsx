@@ -1,10 +1,11 @@
 import React from 'react';
+import { fridgePerson, cornFractal, bluesMetalGuitar } from '../assets/manifest';
 
 const products = [
-  { name: "Rust-Bucket Distortion Pedal", price: "$666.66", desc: "Adds 100% more rust to your tone.", image: "/blues-metal-guitar.png" },
-  { name: "Plasma Slide", price: "$42.00", desc: "Burns your finger off, sounds great.", image: "/blues-metal-guitar.png" },
-  { name: "Fridge-Cooled Amp", price: "$9,999", desc: "Keep your blues cold, your metal hot.", image: "/fridge-person.png" },
-  { name: "Corn-Cob Pick", price: "$0.99", desc: "Breaks immediately. Buy 100.", image: "/corn-fractal.png" }
+  { name: "Rust-Bucket Distortion Pedal", price: "$666.66", desc: "Adds 100% more rust to your tone.", image: bluesMetalGuitar },
+  { name: "Plasma Slide", price: "$42.00", desc: "Burns your finger off, sounds great.", image: bluesMetalGuitar },
+  { name: "Fridge-Cooled Amp", price: "$9,999", desc: "Keep your blues cold, your metal hot.", image: fridgePerson },
+  { name: "Corn-Cob Pick", price: "$0.99", desc: "Breaks immediately. Buy 100.", image: cornFractal }
 ];
 
 export function BluesMetalShop() {

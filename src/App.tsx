@@ -3,6 +3,7 @@ import { FridgeSection } from './components/FridgeSection';
 import { CornZone } from './components/CornZone';
 import { BluesMetalShop } from './components/BluesMetalShop';
 import { ChaoticOptions } from './components/ChaoticOptions';
+import { fridgePerson } from './assets/manifest';
 
 function App() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -36,7 +37,7 @@ function App() {
           background: `radial-gradient(circle, ${bgColor} 0%, transparent 70%)`
         }}
       >
-        <img src="/fridge-person.png" alt="cursor" className="w-full h-full rounded-full opacity-50" />
+        <img src={fridgePerson} alt="cursor" className="w-full h-full rounded-full opacity-50" />
       </div>
 
       {/* Header Marquee */}
