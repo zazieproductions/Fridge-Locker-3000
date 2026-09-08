@@ -229,7 +229,8 @@ The chaos is deterministic under test: [src/lib/chaos.test.ts](src/lib/chaos.tes
 verifies the randomness primitives at seeded boundaries, and component tests
 mock `Math.random` to exercise both branches of the bystander-checkbox and
 hover-select behavior. Render-phase purity is enforced by
-`react-hooks/purity`; any new randomness must go through `lib/chaos.ts`.
+`react-hooks/purity`; new randomness must live in state initializers, event
+handlers, or `lib/chaos.ts` — never in render paths.
 
 ```bash
 npm test            # 26 tests, 6 suites

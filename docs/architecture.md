@@ -22,16 +22,18 @@ index.css  ──► Tailwind v4 @theme block: 8 named keyframe systems
 
 Boundaries, and the rule each one enforces:
 
-| Boundary             | Rule                                                                                                                    |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `assets/manifest.ts` | The only place image URLs may be written. Vite fingerprints everything; a missing file fails the build.                 |
-| `lib/chaos.ts`       | The only place `Math.random()` may be called at runtime. Keeps every non-deterministic behavior greppable and mockable. |
-| `index.css` `@theme` | The only place keyframes are defined. Components reference animation _names_ (`animate-shake`), never raw CSS.          |
-| `components/*`       | Each section owns its state locally. No section reads another's state; the page has no shared store.                    |
+| Boundary             | Rule                                                                                                                                                                                                                                                                                |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `assets/manifest.ts` | The only place image URLs may be written. Vite fingerprints everything; a missing file fails the build.                                                                                                                                                                             |
+| `lib/chaos.ts`       | The home of runtime randomness _primitives_ (`pickRandom`, `chance`, `randomIndex`). Direct `Math.random()` is additionally permitted in exactly two render-safe places — state initializers and event handlers — so `react-hooks/purity` can verify no impurity leaks into render. |
+| `index.css` `@theme` | The only place keyframes are defined. Components reference animation _names_ (`animate-shake`), never raw CSS.                                                                                                                                                                      |
+| `components/*`       | Each section owns its state locally. No section reads another's state; the page has no shared store.                                                                                                                                                                                |
 
 ## The chaos systems
 
-All randomness flows through `src/lib/chaos.ts`:
+All randomness is centered on `src/lib/chaos.ts` (primitives) plus the two
+render-safe impurity sites the purity rule allows (state initializers, event
+handlers):
 
 | Primitive           | Used by                           | Behavior                                             |
 | ------------------- | --------------------------------- | ---------------------------------------------------- |
