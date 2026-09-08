@@ -6,8 +6,8 @@
  * <img> in production (the original export referenced five /public paths
  * that did not exist in the repository).
  */
-import fridgePerson from "./fridge-person.jpg";
-import cornFractal from "./corn-fractal.jpg";
-import bluesMetalGuitar from "./blues-metal-guitar.jpg";
+import fridgePerson from './fridge-person.jpg';
+import cornFractal from './corn-fractal.jpg';
+import bluesMetalGuitar from './blues-metal-guitar.jpg';
 
 export { fridgePerson, cornFractal, bluesMetalGuitar };

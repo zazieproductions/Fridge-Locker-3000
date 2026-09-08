@@ -28,5 +28,5 @@ iframe -> parent: { type: 'element:selected', file, line, column, tag, text, cla
    `window.postMessage({ type: 'inspect:mode', enabled: true }, '*')` from the
    parent frame — or just press **Alt+Shift+I** in the page.
 
-This script is *not* bundled with the app. Re-adding it to `index.html` would
+This script is _not_ bundled with the app. Re-adding it to `index.html` would
 ship dev tooling to production — don't.

@@ -1,0 +1,12 @@
+# Dependencies & lockfile
+node_modules/
+package-lock.json
+
+# Build output
+dist/
+coverage/
+
+# Verbatim platform archives — these must stay byte-identical to what the
+# DesignArena export shipped. Never reformat.
+tools/designarena/telemetry-legacy/*.vendor.js
+tools/designarena/element-picker/*.vendor.js

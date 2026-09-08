@@ -22,7 +22,7 @@ export function randomIndex(length: number): number {
  */
 export function pickRandom<T>(items: readonly T[]): T {
   if (items.length === 0) {
-    throw new RangeError("pickRandom: requires a non-empty array");
+    throw new RangeError('pickRandom: requires a non-empty array');
   }
   // The length guard above makes the index provably in-bounds.
   return items[randomIndex(items.length)]!;

@@ -41,7 +41,7 @@ function App() {
         style={{
           left: mousePos.x - 64,
           top: mousePos.y - 64,
-          background: `radial-gradient(circle, ${bgColor} 0%, transparent 70%)`
+          background: `radial-gradient(circle, ${bgColor} 0%, transparent 70%)`,
         }}
       >
         <img src={fridgePerson} alt="cursor" className="w-full h-full rounded-full opacity-50" />
@@ -51,7 +51,8 @@ function App() {
       <header className="fixed top-0 w-full z-50 bg-red-600 border-b-8 border-yellow-400 animate-rainbow">
         <div className="marquee-container py-2">
           <h1 className="marquee-content-fast text-6xl font-black uppercase tracking-tighter">
-            WELCOME TO THE ABYSS OF CORN AND REFRIGERATION!!! BUY BLUES METAL GEAR NOW!!! LOCK YOURSELF IN!!! 🌽🥶🎸
+            WELCOME TO THE ABYSS OF CORN AND REFRIGERATION!!! BUY BLUES METAL GEAR NOW!!! LOCK
+            YOURSELF IN!!! 🌽🥶🎸
           </h1>
         </div>
       </header>
@@ -78,7 +79,8 @@ function App() {
       <footer className="fixed bottom-0 w-full z-50 bg-blue-600 border-t-8 border-green-400 animate-rainbow">
         <div className="marquee-container py-2">
           <h1 className="marquee-content text-4xl font-black uppercase tracking-tighter mix-blend-color-burn">
-            DO NOT EAT THE FRIDGE CORN! THE BLUES METAL WILL MELT YOUR SOUL! 🌽🥶🎸 DO NOT EAT THE FRIDGE CORN!
+            DO NOT EAT THE FRIDGE CORN! THE BLUES METAL WILL MELT YOUR SOUL! 🌽🥶🎸 DO NOT EAT THE
+            FRIDGE CORN!
           </h1>
         </div>
       </footer>

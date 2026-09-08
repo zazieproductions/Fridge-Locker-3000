@@ -13,11 +13,15 @@ const HOVER_SELECT_PROBABILITY = 0.3;
 const rollRotation = () => Math.random() * 360;
 
 export function ChaoticOptions() {
-  const [checkboxes, setCheckboxes] = useState<boolean[]>(() => Array(CHAOS_CHECKBOX_COUNT).fill(false));
+  const [checkboxes, setCheckboxes] = useState<boolean[]>(() =>
+    Array.from({ length: CHAOS_CHECKBOX_COUNT }, () => false),
+  );
   // Each checkbox carries a random tilt, rolled once at mount and re-rolled
   // inside the toggle handler — so the grid visibly re-scatters every time
   // you touch it, without calling Math.random() during render.
-  const [rotations, setRotations] = useState<number[]>(() => Array(CHAOS_CHECKBOX_COUNT).fill(0).map(rollRotation));
+  const [rotations, setRotations] = useState<number[]>(() =>
+    Array.from({ length: CHAOS_CHECKBOX_COUNT }, rollRotation),
+  );
   const [radio, setRadio] = useState(0);
 
   const toggleCheckbox = (index: number) => {
@@ -49,7 +53,7 @@ export function ChaoticOptions() {
                 checked={checked}
                 onChange={() => toggleCheckbox(i)}
                 className="w-6 h-6 accent-pink-500 cursor-help"
-                style={{ transform: `rotate(${rotations[i]}deg)` }}
+                style={{ transform: `rotate(${rotations[i] ?? 0}deg)` }}
               />
             ))}
           </div>
@@ -59,8 +63,8 @@ export function ChaoticOptions() {
           <h3 className="text-3xl font-bold mb-4 text-cyan-300">Choose One (Or None):</h3>
           <div className="flex flex-col gap-4 w-full">
             {['I am a fridge', 'I am corn', 'I am blues metal', 'I am nothing'].map((opt, i) => (
-              <label 
-                key={i} 
+              <label
+                key={i}
                 className={`flex items-center gap-4 p-4 text-xl font-black cursor-crosshair border-4 transition-all ${radio === i ? 'bg-red-600 border-white scale-110' : 'bg-black border-gray-600 hover:bg-gray-800'}`}
                 onMouseEnter={() => {
                   // Merely hovering an identity sometimes selects it. You are
@@ -68,9 +72,9 @@ export function ChaoticOptions() {
                   if (chance(HOVER_SELECT_PROBABILITY)) setRadio(i);
                 }}
               >
-                <input 
-                  type="radio" 
-                  name="identity" 
+                <input
+                  type="radio"
+                  name="identity"
                   checked={radio === i}
                   onChange={() => setRadio(i)}
                   className="w-8 h-8 accent-red-600"
@@ -83,7 +87,7 @@ export function ChaoticOptions() {
       </div>
 
       <div className="mt-12 flex justify-center">
-        <select 
+        <select
           className="bg-red-500 text-yellow-300 text-4xl font-black p-4 border-8 border-blue-500 outline-none animate-shake appearance-none text-center"
           onChange={(e) => alert(`YOU SELECTED: ${e.target.value}. THIS CHANGES NOTHING.`)}
         >

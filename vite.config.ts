@@ -1,8 +1,9 @@
-import { defineConfig } from "vite";
-import type { PluginOption } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import { sourceTags } from "./tools/designarena/vite-plugin-source-tags";
+/// <reference types="vitest/config" />
+import { defineConfig } from 'vite';
+import type { PluginOption } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+import { sourceTags } from './tools/designarena/vite-plugin-source-tags';
 
 /**
  * Opt-in DesignArena dev tooling (source-mapped element picker).
@@ -11,7 +12,7 @@ import { sourceTags } from "./tools/designarena/vite-plugin-source-tags";
  *
  *   SOURCE_TAGS=1 npm run dev
  */
-const enableSourceTags = process.env.SOURCE_TAGS === "1";
+const enableSourceTags = process.env.SOURCE_TAGS === '1';
 
 const plugins: PluginOption[] = [react(), tailwindcss()];
 if (enableSourceTags) {
@@ -20,4 +21,9 @@ if (enableSourceTags) {
 
 export default defineConfig({
   plugins,
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./tests/setup.ts'],
+    include: ['src/**/*.test.{ts,tsx}', 'tests/**/*.test.{ts,tsx}'],
+  },
 });

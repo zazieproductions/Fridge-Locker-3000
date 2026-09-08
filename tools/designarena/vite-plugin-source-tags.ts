@@ -13,11 +13,11 @@
  * here are declared devDependencies of this repository.
  */
 
-import { parse } from "@babel/parser";
-import traverseDefault from "@babel/traverse";
-import generateDefault from "@babel/generator";
-import * as t from "@babel/types";
-import type { Plugin } from "vite";
+import { parse } from '@babel/parser';
+import traverseDefault from '@babel/traverse';
+import generateDefault from '@babel/generator';
+import * as t from '@babel/types';
+import type { Plugin } from 'vite';
 
 /**
  * The Babel packages are CommonJS with `exports.default` (plus an `__esModule`
@@ -27,7 +27,7 @@ import type { Plugin } from "vite";
  * original export performed with `@ts-ignore`.)
  */
 function unwrapCjsDefault<T>(mod: T): T {
-  return typeof mod === "function" ? mod : (mod as { default: T }).default;
+  return typeof mod === 'function' ? mod : (mod as { default: T }).default;
 }
 
 const traverse = unwrapCjsDefault(traverseDefault);
@@ -35,15 +35,15 @@ const generate = unwrapCjsDefault(generateDefault);
 
 /** Vite transform hook context id → only process local JSX/TSX modules. */
 function isJsxModule(id: string): boolean {
-  return /\.(jsx|tsx)$/.test(id) && !id.includes("node_modules");
+  return /\.(jsx|tsx)$/.test(id) && !id.includes('node_modules');
 }
 
 export function sourceTags(): Plugin {
-  let projectRoot = "";
+  let projectRoot = '';
 
   return {
-    name: "fridge-locker-3000:source-tags",
-    enforce: "pre",
+    name: 'fridge-locker-3000:source-tags',
+    enforce: 'pre',
 
     configResolved(config) {
       projectRoot = config.root;
@@ -55,8 +55,8 @@ export function sourceTags(): Plugin {
       let ast: t.File;
       try {
         ast = parse(code, {
-          sourceType: "module",
-          plugins: ["jsx", "typescript"],
+          sourceType: 'module',
+          plugins: ['jsx', 'typescript'],
         });
       } catch {
         // Unparseable modules are somebody else's problem — let the real
@@ -71,13 +71,13 @@ export function sourceTags(): Plugin {
           const node = path.node;
 
           // Skip fragments (<> / <React.Fragment>) — no element to tag.
-          if (t.isJSXIdentifier(node.name) && node.name.name === "Fragment") {
+          if (t.isJSXIdentifier(node.name) && node.name.name === 'Fragment') {
             return;
           }
           if (
             t.isJSXMemberExpression(node.name) &&
             t.isJSXIdentifier(node.name.property) &&
-            node.name.property.name === "Fragment"
+            node.name.property.name === 'Fragment'
           ) {
             return;
           }
@@ -90,17 +90,15 @@ export function sourceTags(): Plugin {
             (attr) =>
               t.isJSXAttribute(attr) &&
               t.isJSXIdentifier(attr.name) &&
-              attr.name.name === "data-source-loc",
+              attr.name.name === 'data-source-loc',
           );
           if (alreadyTagged) return;
 
-          const relPath = id.startsWith(projectRoot)
-            ? id.slice(projectRoot.length + 1)
-            : id;
+          const relPath = id.startsWith(projectRoot) ? id.slice(projectRoot.length + 1) : id;
 
           node.attributes.push(
             t.jsxAttribute(
-              t.jsxIdentifier("data-source-loc"),
+              t.jsxIdentifier('data-source-loc'),
               t.stringLiteral(`${relPath}:${loc.start.line}:${loc.start.column}`),
             ),
           );
