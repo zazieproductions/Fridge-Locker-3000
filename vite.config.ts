@@ -21,6 +21,12 @@ if (enableSourceTags) {
 
 export default defineConfig({
   plugins,
+  // Dev-server convenience for sandboxed/proxied preview environments:
+  // accept whatever host the dev server is reached through. Production
+  // builds are static files and unaffected.
+  server: {
+    allowedHosts: true,
+  },
   test: {
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
