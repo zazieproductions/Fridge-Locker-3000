@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <!--
+    ugly-bg — the site-wide repeating background tile.
+    Hand-authored SVG replacement for the missing /ugly-bg.png.
+    Deliberately obnoxious. Seamlessly tileable: every shape is either
+    centered in the tile or repeated on a 100px grid so edges wrap.
+  -->
+  <rect width="200" height="200" fill="#ff00ff"/>
+  <!-- big chartreuse dots wrapping the corners + one center -->
+  <circle cx="0" cy="0" r="34" fill="#adff2f"/>
+  <circle cx="200" cy="0" r="34" fill="#adff2f"/>
+  <circle cx="0" cy="200" r="34" fill="#adff2f"/>
+  <circle cx="200" cy="200" r="34" fill="#adff2f"/>
+  <circle cx="100" cy="100" r="34" fill="#adff2f"/>
+  <!-- smaller yellow dots on the offset grid -->
+  <circle cx="50" cy="50" r="12" fill="#ffee00"/>
+  <circle cx="150" cy="50" r="12" fill="#ffee00"/>
+  <circle cx="50" cy="150" r="12" fill="#ffee00"/>
+  <circle cx="150" cy="150" r="12" fill="#ffee00"/>
+  <!-- tiny cyan ticks so the eye can never rest -->
+  <rect x="98" y="48" width="4" height="10" fill="#00ffff"/>
+  <rect x="48" y="98" width="10" height="4" fill="#00ffff"/>
+  <rect x="148" y="98" width="10" height="4" fill="#00ffff"/>
+  <rect x="98" y="148" width="4" height="10" fill="#00ffff"/>
+</svg>

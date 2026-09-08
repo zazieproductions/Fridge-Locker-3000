@@ -1,24 +1,34 @@
-import React from 'react';
+import { cornFractal } from '../assets/manifest';
+
+/** Number of individually-clickable corn cells in the grid. Nine. Obviously. */
+export const CORN_CELL_COUNT = 9;
 
 export function CornZone() {
   return (
     <div className="bg-yellow-300 border-[16px] border-dotted border-green-600 p-4 relative overflow-hidden h-full">
       <div className="absolute inset-0 opacity-50">
-        <img src="/corn-fractal.png" alt="Corn Fractal" className="w-full h-full object-cover animate-spin-reverse" />
+        <img
+          src={cornFractal}
+          alt="Corn Fractal"
+          className="w-full h-full object-cover animate-spin-reverse"
+        />
       </div>
-      
+
       <div className="relative z-10 flex flex-col items-center text-center">
         <h2 className="text-6xl font-black text-green-800 drop-shadow-[-4px_4px_0px_#ff0] mb-8 rotate-[-5deg]">
           CORN ZONE
         </h2>
-        
+
         <div className="grid grid-cols-3 gap-4 w-full mb-8">
-          {[...Array(9)].map((_, i) => (
-            <div 
-              key={i} 
+          {Array.from({ length: CORN_CELL_COUNT }).map((_, i) => (
+            <div
+              key={i}
               className="bg-orange-500 text-yellow-200 font-bold p-2 text-xl border-4 border-yellow-800 animate-wobble cursor-pointer hover:bg-red-500"
               style={{ animationDelay: `${i * 0.1}s` }}
               onClick={(e) => {
+                // Clicking a cob teleports it to a random scale and rotation.
+                // The mutation is deliberately uncontrolled — cobs never return
+                // to their original position. There is no reset button.
                 e.currentTarget.style.transform = `scale(${Math.random() * 3}) rotate(${Math.random() * 360}deg)`;
               }}
             >

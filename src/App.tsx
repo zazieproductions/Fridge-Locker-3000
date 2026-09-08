@@ -1,23 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FridgeSection } from './components/FridgeSection';
 import { CornZone } from './components/CornZone';
 import { BluesMetalShop } from './components/BluesMetalShop';
 import { ChaoticOptions } from './components/ChaoticOptions';
+import { fridgePerson } from './assets/manifest';
+import { pickRandom } from './lib/chaos';
+
+/** Palette for the mouse-following rave blob, re-rolled every RAVE_CYCLE_MS. */
+const RAVE_COLORS = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'] as const;
+const RAVE_CYCLE_MS = 100;
 
 function App() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [bgColor, setBgColor] = useState('#ff00ff');
+  const [bgColor, setBgColor] = useState<string>(RAVE_COLORS[0]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener('mousemove', handleMouseMove);
-    
+
+    // The blob strobes through the palette 10× per second. Yes, on purpose.
     const interval = setInterval(() => {
-      const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
-      setBgColor(colors[Math.floor(Math.random() * colors.length)]);
-    }, 100);
+      setBgColor(pickRandom(RAVE_COLORS));
+    }, RAVE_CYCLE_MS);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -26,24 +32,27 @@ function App() {
   }, []);
 
   return (
+    // mix-blend-difference inverts everything beneath the cursor blob — the
+    // whole page double-exposes itself as you move. Load-bearing weirdness.
     <div className="min-h-screen relative overflow-hidden" style={{ mixBlendMode: 'difference' }}>
       {/* Crazy Cursor Follower */}
-      <div 
+      <div
         className="fixed w-32 h-32 pointer-events-none z-[9999] animate-spin-fast mix-blend-exclusion"
-        style={{ 
-          left: mousePos.x - 64, 
+        style={{
+          left: mousePos.x - 64,
           top: mousePos.y - 64,
-          background: `radial-gradient(circle, ${bgColor} 0%, transparent 70%)`
+          background: `radial-gradient(circle, ${bgColor} 0%, transparent 70%)`,
         }}
       >
-        <img src="/fridge-person.png" alt="cursor" className="w-full h-full rounded-full opacity-50" />
+        <img src={fridgePerson} alt="cursor" className="w-full h-full rounded-full opacity-50" />
       </div>
 
       {/* Header Marquee */}
       <header className="fixed top-0 w-full z-50 bg-red-600 border-b-8 border-yellow-400 animate-rainbow">
         <div className="marquee-container py-2">
           <h1 className="marquee-content-fast text-6xl font-black uppercase tracking-tighter">
-            WELCOME TO THE ABYSS OF CORN AND REFRIGERATION!!! BUY BLUES METAL GEAR NOW!!! LOCK YOURSELF IN!!! 🌽🥶🎸
+            WELCOME TO THE ABYSS OF CORN AND REFRIGERATION!!! BUY BLUES METAL GEAR NOW!!! LOCK
+            YOURSELF IN!!! 🌽🥶🎸
           </h1>
         </div>
       </header>
@@ -70,7 +79,8 @@ function App() {
       <footer className="fixed bottom-0 w-full z-50 bg-blue-600 border-t-8 border-green-400 animate-rainbow">
         <div className="marquee-container py-2">
           <h1 className="marquee-content text-4xl font-black uppercase tracking-tighter mix-blend-color-burn">
-            DO NOT EAT THE FRIDGE CORN! THE BLUES METAL WILL MELT YOUR SOUL! 🌽🥶🎸 DO NOT EAT THE FRIDGE CORN!
+            DO NOT EAT THE FRIDGE CORN! THE BLUES METAL WILL MELT YOUR SOUL! 🌽🥶🎸 DO NOT EAT THE
+            FRIDGE CORN!
           </h1>
         </div>
       </footer>
